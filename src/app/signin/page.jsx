@@ -1,17 +1,19 @@
 "use client";
-import Navbar from "../_navbar/Navbar";
+// import Navbar from "../_navbar/Navbar";
 import React, { useState,useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Page1 from "../_footer/Page";
-import Loader from "@/component/loader/Page";
+import Link from "next/link";
+import { ComplexNavbar } from "../_navbar/Navbar";
+// import Page1 from "../_footer/Page";
+// import Loader from "@/component/loader/Page";
 const Page = () => {
   const [loginData, setLoginData] = useState({
     lemail: "",
     lpass: "",
   });
 
-  const [isLoading,setLoading] = useState(false)
+  // const [isLoading,setLoading] = useState(false)
   const handleInputLogin = (e) => {
     const { name, value } = e.target;
     setLoginData((prevData) => ({
@@ -20,68 +22,68 @@ const Page = () => {
     }));
   };
 
-  const router = useRouter()
+  // const router = useRouter()
 
-  const getAuthToken = () => {
-    // Fetch all cookies as a string
-    const cookies = document.cookie;
+  // const getAuthToken = () => {
+  //   // Fetch all cookies as a string
+  //   const cookies = document.cookie;
 
-    // Split cookies string into individual cookies
-    const cookieArray = cookies.split("; ");
+  //   // Split cookies string into individual cookies
+  //   const cookieArray = cookies.split("; ");
 
-    // Find the authToken cookie by filtering the array
-    const authToken = cookieArray.find((cookie) =>
-      cookie.startsWith("authToken=")
-    );
+  //   // Find the authToken cookie by filtering the array
+  //   const authToken = cookieArray.find((cookie) =>
+  //     cookie.startsWith("authToken=")
+  //   );
 
-    // Extract the token value if authToken exists
-    if (authToken) {
-      const token = authToken.split("=")[1];
-      console.log(token); // Log the token for debugging
-      return token;
-    }
+  //   // Extract the token value if authToken exists
+  //   if (authToken) {
+  //     const token = authToken.split("=")[1];
+  //     console.log(token); // Log the token for debugging
+  //     return token;
+  //   }
 
-    console.log("No authToken found");
-    return null; // Return null if no authToken is found
-  };
+  //   console.log("No authToken found");
+  //   return null; // Return null if no authToken is found
+  // };
 
-  // Function to verify the token on the client side
-  const verifyToken = async () => {
-    const token = getAuthToken();
-    if (!token) {
-      router.push("/signin")
-      return;
-    }
+  // // Function to verify the token on the client side
+  // const verifyToken = async () => {
+  //   const token = getAuthToken();
+  //   if (!token) {
+  //     router.push("/signin")
+  //     return;
+  //   }
 
-    console.log("Token:wdasdsa", token);
-    try {
-      // Send the token to the server for verification
-      const res = await fetch("/api/utils", {
-        // Adjust the API endpoint as needed
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token }), // Send the token in the request body
-      });
+  //   console.log("Token:wdasdsa", token);
+  //   try {
+  //     // Send the token to the server for verification
+  //     const res = await fetch("/api/utils", {
+  //       // Adjust the API endpoint as needed
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ token }), // Send the token in the request body
+  //     });
 
-      const data = await res.json();
-      console.log(data);
-      if (data.isValid) {
-        router.push("/home")
-      } else {
-              router.push("/signin")
-      }
-    } catch (error) {
-      console.log("Invalid Token:", error);
-      router.push("/signin")
-    }
-  };
+  //     const data = await res.json();
+  //     console.log(data);
+  //     if (data.isValid) {
+  //       router.push("/home")
+  //     } else {
+  //             router.push("/signin")
+  //     }
+  //   } catch (error) {
+  //     console.log("Invalid Token:", error);
+  //     router.push("/signin")
+  //   }
+  // };
 
-  // Effect to check token on component mount
-  useEffect(() => {
-    verifyToken();
-  }, []);
+  // // Effect to check token on component mount
+  // useEffect(() => {
+  //   verifyToken();
+  // }, []);
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
@@ -118,9 +120,10 @@ const Page = () => {
   return (
     <div>
       <Toaster />
-      <Navbar />
-
-      {isLoading ? <Loader /> : null}
+      {/* <Navbar /> */}
+      <ComplexNavbar />
+{/* 
+      {isLoading ? <Loader /> : null} */}
       <div className="w-full max-w-md mx-auto p-6">
         <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-white-900 dark:border-neutral-700">
           <div className="p-6 sm:p-7">
@@ -130,12 +133,12 @@ const Page = () => {
               </h1>
               <p className="mt-2 text-sm text-gray-600 dark:text-neutral-400">
               Not have an account yet?
-                <a
+                <Link
                   className="text-blue-600 px-2 decoration-2 hover:underline focus:outline-none focus:underline font-medium dark:text-blue-500"
-                  href="../examples/html/signup.html"
+                  href="/register"
                 >
                   Sign up here
-                </a>
+                </Link>
               </p>
             </div>
 
@@ -178,7 +181,7 @@ const Page = () => {
                 Or
               </div>
 
-              <form onSubmit={handleSubmitLogin}>
+              <form >
                 <div className="grid gap-y-4">
                   <div className="text-start">
                     <label
@@ -298,7 +301,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Page1 />
+      {/* <Page1 /> */}
     </div>
   );
 };

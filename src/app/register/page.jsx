@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../_navbar/Navbar";
-import Page1 from "../_footer/Page";
+import { ComplexNavbar } from "../_navbar/Navbar";
+// import Navbar from "../_navbar/Navbar";
+// import Page1 from "../_footer/Page";
 const Page = () => {
   const [regData, setRegData] = useState({
     name: "",
@@ -45,70 +46,71 @@ const Page = () => {
     }
   };
 
-  const getAuthToken = () => {
-    // Fetch all cookies as a string
-    const cookies = document.cookie;
+  // const getAuthToken = () => {
+  //   // Fetch all cookies as a string
+  //   const cookies = document.cookie;
 
-    // Split cookies string into individual cookies
-    const cookieArray = cookies.split("; ");
+  //   // Split cookies string into individual cookies
+  //   const cookieArray = cookies.split("; ");
 
-    // Find the authToken cookie by filtering the array
-    const authToken = cookieArray.find((cookie) =>
-      cookie.startsWith("authToken=")
-    );
+  //   // Find the authToken cookie by filtering the array
+  //   const authToken = cookieArray.find((cookie) =>
+  //     cookie.startsWith("authToken=")
+  //   );
 
-    // Extract the token value if authToken exists
-    if (authToken) {
-      const token = authToken.split("=")[1];
-      console.log(token); // Log the token for debugging
-      return token;
-    }
+  //   // Extract the token value if authToken exists
+  //   if (authToken) {
+  //     const token = authToken.split("=")[1];
+  //     console.log(token); // Log the token for debugging
+  //     return token;
+  //   }
 
-    console.log("No authToken found");
-    return null; // Return null if no authToken is found
-  };
+  //   console.log("No authToken found");
+  //   return null; // Return null if no authToken is found
+  // };
 
-  // Function to verify the token on the client side
-  const verifyToken = async () => {
-    const token = getAuthToken();
-    if (!token) {
-      router.push("/register");
-      return;
-    }
+  // // Function to verify the token on the client side
+  // const verifyToken = async () => {
+  //   const token = getAuthToken();
+  //   if (!token) {
+  //     router.push("/register");
+  //     return;
+  //   }
 
-    console.log("Token:wdasdsa", token);
-    try {
-      // Send the token to the server for verification
-      const res = await fetch("/api/utils", {
-        // Adjust the API endpoint as needed
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token }), // Send the token in the request body
-      });
+  //   console.log("Token:wdasdsa", token);
+  //   try {
+  //     // Send the token to the server for verification
+  //     const res = await fetch("/api/utils", {
+  //       // Adjust the API endpoint as needed
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ token }), // Send the token in the request body
+  //     });
 
-      const data = await res.json();
-      console.log(data);
-      if (data.isValid) {
-        router.push("/home");
-      } else {
-        router.push("/register");
-      }
-    } catch (error) {
-      console.log("Invalid Token:", error);
-      router.push("/register");
-    }
-  };
+  //     const data = await res.json();
+  //     console.log(data);
+  //     if (data.isValid) {
+  //       router.push("/home");
+  //     } else {
+  //       router.push("/register");
+  //     }
+  //   } catch (error) {
+  //     console.log("Invalid Token:", error);
+  //     router.push("/register");
+  //   }
+  // };
 
-  // Effect to check token on component mount
-  useEffect(() => {
-    verifyToken();
-  }, []);
+  // // Effect to check token on component mount
+  // useEffect(() => {
+  //   verifyToken();
+  // }, []);
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
+      <ComplexNavbar />
       <div className="w-full max-w-md mx-auto pb-5">
         <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-white-900 dark:border-neutral-700">
           <div className="p-4 sm:p-7">
@@ -168,10 +170,10 @@ const Page = () => {
                 <div className="grid gap-y-4" onSubmit={handleSubmitReg}>
                   <div className="text-start">
                     <label
-                      htmlFor="email"
+                      htmlFor="name"
                       className="block text-sm mb-2 dark:text-black"
                     >
-                      Email Name
+                      Enter Name
                     </label>
                     <div className="relative">
                       <input
@@ -182,7 +184,7 @@ const Page = () => {
                         name="name"
                         className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-white-900 dark:border-neutral-700 dark:text-black-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                         required
-                        aria-describedby="email-error"
+                        aria-describedby="name-error"
                       />
                       <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                         <svg
@@ -287,7 +289,7 @@ const Page = () => {
 
                   <div className="text-start">
                     <label
-                      htmlFor="email"
+                      htmlFor="address"
                       className="block text-sm mb-2 dark:text-black"
                     >
                       Enter Address
@@ -298,10 +300,10 @@ const Page = () => {
                         id="address"
                         value={regData.address}
                         onChange={handleInput}
-                        name="email"
+                        name="address"
                         className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-white-900 dark:border-neutral-700 dark:text-black-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
                         required
-                        aria-describedby="email-error"
+                        aria-describedby="address-error"
                       />
                       <div className="hidden absolute inset-y-0 end-0 pointer-events-none pe-3">
                         <svg
@@ -362,7 +364,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      <Page1 />
+      {/* <Page1 /> */}
     </div>
   );
 };
