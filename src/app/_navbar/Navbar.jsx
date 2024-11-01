@@ -118,21 +118,22 @@ function ProfileMenu() {
 // nav list menu
 const navListMenuItems = [
   {
-    title: "@material-tailwind/html",
+    title: "GunCloth Collection",
     description:
-      "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
+      "Explore our exclusive GunCloth Collection, crafted with style and quality to make a statement.",
   },
   {
-    title: "@material-tailwind/react",
+    title: "GunCloth for Men & Women",
     description:
-      "Learn how to use @material-tailwind/react, packed with rich components for React.",
+      "Discover our versatile GunCloth range for both men and women, combining comfort with cutting-edge fashion.",
   },
   {
-    title: "Material Tailwind PRO",
+    title: "GunCloth Essentials",
     description:
-      "A complete set of UI Elements for building faster websites in less time.",
+      "Get the essentials for your wardrobe with GunCloth—premium fabrics and trendsetting designs at your fingertips.",
   },
 ];
+
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -195,10 +196,6 @@ function NavListMenu() {
 // nav list component
 const navListItems = [
   {
-    label: "Account",
-    icon: UserCircleIcon,
-  },
-  {
     label: "Blocks",
     icon: CubeTransparentIcon,
   },
@@ -251,7 +248,7 @@ export function ComplexNavbar() {
           href="/"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          Material 
+        GunCloth 
         </Typography>
         <div className="hidden lg:block">
           <NavList />
