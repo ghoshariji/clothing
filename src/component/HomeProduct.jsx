@@ -1,66 +1,81 @@
+"use client";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-const products = [
-  {
-    id: 1,
-    name: "Nike Air MX Super 2500 - Red",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 449,
-    originalPrice: 699,
-    discount: "39% OFF",
-    rating: 5.0,
-  },
-  {
-    id: 2,
-    name: "Adidas Super Nova Shoes",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 299,
-    originalPrice: 499,
-    discount: "40% OFF",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "Adidas Super Nova Shoes",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 299,
-    originalPrice: 499,
-    discount: "40% OFF",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "Adidas Super Nova Shoes",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 299,
-    originalPrice: 499,
-    discount: "40% OFF",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "Adidas Super Nova Shoes",
-    image:
-      "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
-    price: 299,
-    originalPrice: 499,
-    discount: "40% OFF",
-    rating: 4.5,
-  },
-  // Add more products as needed
-];
+// const products = [
+//   {
+//     id: 1,
+//     name: "Nike Air MX Super 2500 - Red",
+//     image:
+//       "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+//     price: 449,
+//     originalPrice: 699,
+//     discount: "39% OFF",
+//     rating: 5.0,
+//   },
+//   {
+//     id: 2,
+//     name: "Adidas Super Nova Shoes",
+//     image:
+//       "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
+//     price: 299,
+//     originalPrice: 499,
+//     discount: "40% OFF",
+//     rating: 4.5,
+//   },
+//   {
+//     id: 2,
+//     name: "Adidas Super Nova Shoes",
+//     image:
+//       "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
+//     price: 299,
+//     originalPrice: 499,
+//     discount: "40% OFF",
+//     rating: 4.5,
+//   },
+//   {
+//     id: 2,
+//     name: "Adidas Super Nova Shoes",
+//     image:
+//       "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
+//     price: 299,
+//     originalPrice: 499,
+//     discount: "40% OFF",
+//     rating: 4.5,
+//   },
+//   {
+//     id: 2,
+//     name: "Adidas Super Nova Shoes",
+//     image:
+//       "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8YWRpZGFzfGVufDB8fDB8fHw%3D&auto=format&fit=crop&w=500&q=60",
+//     price: 299,
+//     originalPrice: 499,
+//     discount: "40% OFF",
+//     rating: 4.5,
+//   },
+//   // Add more products as needed
+// ];
 
 const HomeProduct = () => {
+  const [products, setprduct] = useState([]);
+  const fetchData = async () => {
+    try {
+      const res = await fetch("/api/product");
+      const data = await res.json();
+      console.log(data)
+      setprduct(data.data);
+    } catch (error) {
+      console.log("Error" + error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-2">
-      {products.map((product) => (
+      {products.length > 0 ? products.map((product) => (
         <div
-          key={product.id}
+          key={product._id}
           className="relative flex flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md w-full max-w-sm"
         >
           <a
@@ -79,13 +94,13 @@ const HomeProduct = () => {
           <div className="mt-4 px-5 pb-5">
             <a href="#">
               <h5 className="text-xl tracking-tight text-slate-900">
-                {product.name}
+                {product.productName}
               </h5>
             </a>
             <div className="mt-2 mb-5 flex items-center justify-between">
               <p>
                 <span className="text-3xl font-bold text-slate-900">
-                  ${product.price}
+                  ${product.durdiscountPrice}
                 </span>
                 <span className="text-sm text-slate-900 line-through">
                   ${product.originalPrice}
@@ -109,7 +124,7 @@ const HomeProduct = () => {
                   </svg>
                 ))}
                 <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
-                  {product.rating}
+                  {product.ratings}
                 </span>
               </div>
             </div>
@@ -135,7 +150,7 @@ const HomeProduct = () => {
             </Link>
           </div>
         </div>
-      ))}
+      )): null}
     </div>
   );
 };
