@@ -128,7 +128,7 @@ const HomePage = () => {
                 AG
               </div>
               <div>
-                <h2 className="text-xl font-semibold">Welcome back, Arijit</h2>
+                <h2 className="text-xl font-semibold">Welcome back</h2>
                 <button className="text-purple-700 hover:underline text-sm">
                   Add occupation and interests
                 </button>
@@ -185,7 +185,7 @@ const HomePage = () => {
               placeholder="Search for a course..."
               className="p-2 border border-gray-300 rounded-md w-full max-w-md"
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)} // Update search term on input change
+              onChange={(e) => setSearchTerm(e.target.value)} 
             />
           </div>
 
