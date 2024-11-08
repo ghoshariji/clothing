@@ -22,7 +22,6 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
-    courses:[]
   },
   { timestamps: true }
 );

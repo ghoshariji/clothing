@@ -166,8 +166,8 @@ const Page = () => {
                 Or
               </div>
 
-              <form>
-                <div className="grid gap-y-4" onSubmit={handleSubmitReg}>
+              <form  onSubmit={handleSubmitReg}>
+                <div className="grid gap-y-4">
                   <div className="text-start">
                     <label
                       htmlFor="name"

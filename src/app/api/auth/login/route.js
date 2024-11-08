@@ -35,12 +35,13 @@ export async function POST(req, res) {
     console.log("Password matches");
 
     // Generate JWT token
-    const token = jwt.sign({ email: user1.email }, process.env.JWT_SECRET || "Hello", {
+    const token = jwt.sign({ email: user1.email },"Hello", {
       expiresIn: "1h",
     });
 
     console.log("Generated JWT token:", token);
 
+  //  localStorage.setItem("token",token)
     // Set token in a httpOnly cookie
     const cookie = serialize("authToken", token, {
       httpOnly: false,

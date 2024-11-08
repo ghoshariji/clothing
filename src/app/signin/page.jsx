@@ -22,6 +22,8 @@ const Page = () => {
     }));
   };
 
+  const router = useRouter()
+
   // const router = useRouter()
 
   // const getAuthToken = () => {
@@ -87,7 +89,7 @@ const Page = () => {
 
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    //setLoading(true);
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -100,20 +102,21 @@ const Page = () => {
       const data = await res.json();
       console.log(data);
 
-      setLoading(false);
+    //  setLoading(false);
       if (data.error) {
         toast.error(data.error);
       } else if (data.message) {
+        router.push("/cart");
         setLoginData("");
-        toast.success("Login Successfully");
-        setTimeout(() => {
-          router.push("/home");
-        }, 1000);
+     //   toast.success("Login Successfully");
+        // setTimeout(() => {
+        //  
+        // }, 1000);
       }
     } catch (error) {
-    setLoading(false);
-      toast.error("Something went wrong");
-      console.error(error);
+  //  setLoading(false);
+    //  toast.error("Something went wrong");
+        console.error(error);
     }
   };
 
@@ -181,7 +184,7 @@ const Page = () => {
                 Or
               </div>
 
-              <form >
+              <form onSubmit={handleSubmitLogin}>
                 <div className="grid gap-y-4">
                   <div className="text-start">
                     <label
