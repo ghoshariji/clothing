@@ -72,7 +72,7 @@ const Page = () => {
   //     const data = await res.json();
   //     console.log(data);
   //     if (data.isValid) {
-  //       router.push("/home")
+  //       router.push("")
   //     } else {
   //             router.push("/signin")
   //     }

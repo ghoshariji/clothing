@@ -3,7 +3,7 @@
 // import React from 'react'
 // import { ComplexNavbar } from './_navbar/Navbar'
 // import Page from './_footer/Page'
-// import HomeProduct from '@/component/HomeProduct'
+// import HomeProduct from '@/componentProduct'
 // import PopUpComponent from '@/component/PopUp'
 // import Link from 'next/link'
 // import { ShoppingCartIcon } from '@heroicons/react/24/solid'
@@ -41,7 +41,7 @@ import Hero from '@/component/Hero';
 import React, { useEffect, useState } from 'react';
 import { ComplexNavbar } from './_navbar/Navbar';
 import Page from './_footer/Page';
-import HomeProduct from '@/component/HomeProduct';
+import HomeProduct from '@/componentProduct';
 import PopUpComponent from '@/component/PopUp';
 import Link from 'next/link';
 import { ShoppingCartIcon } from '@heroicons/react/24/solid';
