@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
 import Page from "../_footer/Page";
-import Navbar from "../_navbar/Navbar";
+import { ComplexNavbar } from "../_navbar/Navbar";
 
 const AboutUs = () => {
   return (
     <>
-    <Navbar />
+    <ComplexNavbar />
     <div className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       {/* Hero Section */}
       <section className="w-full bg-blue-600 dark:bg-blue-800 py-16">
