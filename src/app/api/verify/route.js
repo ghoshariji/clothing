@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import crypto from 'crypto';
 import user from '@/models/user';
-import course from '@/models/course';
+import course from '';
 
 const generatedSignature = (razorpayOrderId, razorpayPaymentId) => {
   const keySecret = "2ZxuxUnbMuIvBPz0avekYoh6";

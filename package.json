@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@heroicons/react": "^2.1.5",
     "@material-tailwind/react": "^2.1.10",
     "bcryptjs": "^2.4.3",

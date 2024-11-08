@@ -1,5 +1,5 @@
 import mongoDb from "@/lib/ddConn";
-import course from "@/models/course";
+import course from "";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {

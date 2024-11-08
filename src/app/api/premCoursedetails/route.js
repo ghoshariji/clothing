@@ -1,5 +1,5 @@
 import mongoDb from "@/lib/ddConn";
-import course from "@/models/course";
+import course from "";
 import user from "@/models/user";
 import { NextResponse } from "next/server";
 
