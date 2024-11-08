@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Page from "../_footer/Page";
-import Authnavbar from "../_navbar/AuthNavbar";
+import Authnavbar from "";
 
 function SettingsPage() {
   const [user, setUser] = useState({

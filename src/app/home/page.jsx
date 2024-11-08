@@ -5,7 +5,7 @@ import CourseCard from "../../component/CourseCard";
 import Navbar from "../_navbar/Navbar";
 import Page from "../_footer/Page";
 import Image from "next/image";
-import Authnavbar from "../_navbar/AuthNavbar";
+import Authnavbar from "";
 import { useRouter } from "next/navigation";
 import Loader from "@/component/loader/Page";
 import { faL } from "@fortawesome/free-solid-svg-icons";

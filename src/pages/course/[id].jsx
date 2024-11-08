@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../app/_navbar/Navbar";
 import Page from "../../app/_footer/Page";
-import Authnavbar from "../../app/_navbar/AuthNavbar";
+import Authnavbar from "";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import "../../../src/app/globals.css";
