@@ -71,15 +71,14 @@ const Cart = () => {
       cookie.startsWith("authToken=")
     );
 
-    // Extract the token value if authToken exists
     if (authToken) {
       const token = authToken.split("=")[1];
-      console.log(token); // Log the token for debugging
+      console.log(token); 
       return token;
     }
 
     console.log("No authToken found");
-    return null; // Return null if no authToken is found
+    return null;
   };
 
   const checkUserAuthenticated = async () => {
