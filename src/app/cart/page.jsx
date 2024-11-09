@@ -108,6 +108,7 @@ const Cart = () => {
       }
 
       console.log("Come")
+      navigation.push("/checkout")
       // Proceed with the buy action if authenticated
     } catch (error) {
       console.log("Error " + error);
