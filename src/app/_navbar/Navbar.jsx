@@ -29,32 +29,31 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { XMarkIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
-
-// profile menu component
+import { useState, useEffect } from "react";
 const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
+    route: "/profile", // Add route for "My Profile"
   },
   {
     label: "Help",
     icon: LifebuoyIcon,
+    route: "/help", // Add route for "Help"
+  },
+  {
+    label: "Order-History",
+    icon: LifebuoyIcon,
+    route: "/orderhistory", // Add route for "Help"
   },
   {
     label: "Sign Out",
     icon: PowerIcon,
+    route: "/signout", // Add route for "Sign Out"
   },
 ];
 
-function ProfileMenu() {
+function ProfileMenu(isAuth) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
@@ -83,33 +82,52 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1;
-          return (
-            <MenuItem
-              key={label}
-              onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-              }`}
-            >
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
+        {isAuth.isAuth ? (
+          // If authenticated, show profile menu items
+          profileMenuItems.map(({ label, icon, route }, key) => {
+            const isLastItem = key === profileMenuItems.length - 1;
+            return (
+              <MenuItem
+                key={label}
+                onClick={closeMenu}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
               >
-                {label}
-              </Typography>
-            </MenuItem>
-          );
-        })}
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Link href={route}>
+                  <Typography
+                    as="span"
+                    variant="small"
+                    className="font-normal"
+                    color={isLastItem ? "red" : "inherit"}
+                  >
+                    {label}
+                  </Typography>
+                </Link>
+              </MenuItem>
+            );
+          })
+        ) : (
+          // If not authenticated, show login option
+          <MenuItem
+            onClick={closeMenu}
+            className="flex items-center gap-2 rounded"
+          >
+            <Typography
+              as="span"
+              variant="small"
+              className="font-normal text-blue-500"
+            >
+              <Link href="/register">Register Now</Link>
+            </Typography>
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );
@@ -133,7 +151,6 @@ const navListMenuItems = [
       "Get the essentials for your wardrobe with GunCloth—premium fabrics and trendsetting designs at your fingertips.",
   },
 ];
-
 
 function NavListMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
@@ -240,6 +257,61 @@ export function ComplexNavbar() {
     );
   }, []);
 
+  const [isAuth, setIsAuth] = useState(false);
+
+  const getAuthToken = () => {
+    // Fetch all cookies as a string
+    const cookies = document.cookie;
+
+    // Split cookies string into individual cookies
+    const cookieArray = cookies.split("; ");
+
+    // Find the authToken cookie by filtering the array
+    const authToken = cookieArray.find((cookie) =>
+      cookie.startsWith("authToken=")
+    );
+
+    if (authToken) {
+      const token = authToken.split("=")[1];
+      console.log(token);
+      return token;
+    }
+
+    console.log("No authToken found");
+    return null;
+  };
+
+  const checkUserAuthenticated = async () => {
+    const token = getAuthToken();
+    if (!token) {
+      return false;
+    }
+
+    const checkValidToken = await fetch("/api/utils", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await checkValidToken.json();
+    console.log(data);
+    return data.isValid;
+  };
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      const valid = await checkUserAuthenticated();
+      console.log(valid);
+      if (valid) {
+        setIsAuth(true);
+      } else {
+        setIsAuth(false);
+      }
+    };
+
+    checkAuthentication();
+  }, []);
   return (
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
@@ -248,7 +320,7 @@ export function ComplexNavbar() {
           href="/"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-        GunCloth 
+          GunCloth
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -263,12 +335,14 @@ export function ComplexNavbar() {
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
 
-        <Button size="sm" variant="text">
-          <Link href="/signin">
-            {" "}
-            <span>Log In</span>
-          </Link>
-        </Button>
+        {isAuth == false && (
+          <Button size="sm" variant="text">
+            <Link href="/signin">
+              {" "}
+              <span>Log In</span>
+            </Link>
+          </Button>
+        )}
 
         {/* <Button size="sm" variant="text">
           <div className="relative">
@@ -278,7 +352,7 @@ export function ComplexNavbar() {
             </span>
           </div>
         </Button> */}
-        <ProfileMenu />
+        <ProfileMenu isAuth={isAuth} />
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />
