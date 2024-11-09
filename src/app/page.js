@@ -83,7 +83,21 @@ const Page = () => {
     <div>
       <ComplexNavbar cartCount={cartCount} /> {/* Pass cartCount as prop if needed */}
       <Hero />
-      <CartComponent cartCount={cartCount} /> {/* Display cart count in CartComponent */}
+      <div
+  className="
+    fixed 
+    bottom-4 right-4 
+    sm:bottom-150 sm:right-200
+    md:bottom-10 md:right-10 
+    lg:bottom-16 lg:right-16 
+    z-50
+    max-w-full p-2
+    overflow-hidden
+  "
+>
+  <CartComponent />
+</div>
+
       <HomeProduct addToCart={addToCart} />
       <PageFooter />
     </div>
