@@ -145,7 +145,7 @@ const ProductModal = ({
   decreaseQuantity,
 }) => {
   const handleAddToCart = () => {
-    addToCart(product, quantity); // Add product with selected quantity
+    addToCart(product, quantity); 
     onClose();
   };
 
@@ -255,7 +255,7 @@ const HomeProduct = ({ addToCart }) => {
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [quantity, setQuantity] = useState(1);  // Track quantity separately in the HomeProduct component
+  const [quantity, setQuantity] = useState(1); 
 
   const fetchData = async () => {
     try {
@@ -274,7 +274,7 @@ const HomeProduct = ({ addToCart }) => {
   const openModal = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
-    setQuantity(1);  // Reset quantity on opening the modal
+    setQuantity(1);  
   };
 
   const closeModal = () => {
@@ -300,7 +300,7 @@ const HomeProduct = ({ addToCart }) => {
           >
             <a
               className="relative mx-3 mt-3 flex h-25 w-48 overflow-hidden rounded-xl shadow-lg"
-              onClick={() => openModal(product)}  // Open modal on button click
+              onClick={() => openModal(product)}  
             >
               <img
                 className="object-cover w-full h-full rounded-xl"
@@ -351,7 +351,7 @@ const HomeProduct = ({ addToCart }) => {
 
               <div className="mt-4 flex flex-col sm:flex-row gap-4">
                 <button
-                  onClick={() => openModal(product)}  // Open modal on button click
+                  onClick={() => openModal(product)}  
                   className="w-full sm:w-auto flex items-center justify-center rounded-lg bg-pink-500 text-white px-5 py-2.5 text-sm font-medium hover:bg-pink-700 focus:outline-none focus:ring-4 focus:ring-pink-300"
                 >
                   Add Quickly
