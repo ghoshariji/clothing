@@ -34,22 +34,22 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
-  },
-  {
-    label: "Edit Profile",
-    icon: Cog6ToothIcon,
-  },
-  {
-    label: "Inbox",
-    icon: InboxArrowDownIcon,
+    route: "/profile", // Add route for "My Profile"
   },
   {
     label: "Help",
     icon: LifebuoyIcon,
+    route: "/help", // Add route for "Help"
+  },
+  {
+    label: "Order-History",
+    icon: LifebuoyIcon,
+    route: "/orderhistory", // Add route for "Help"
   },
   {
     label: "Sign Out",
     icon: PowerIcon,
+    route: "/signout", // Add route for "Sign Out"
   },
 ];
 
@@ -82,45 +82,52 @@ function ProfileMenu(isAuth) {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-      {isAuth.isAuth ? (
-        // If authenticated, show profile menu items
-        profileMenuItems.map(({ label, icon }, key) => {
-          const isLastItem = key === profileMenuItems.length - 1;
-          return (
-            <MenuItem
-              key={label}
-              onClick={closeMenu}
-              className={`flex items-center gap-2 rounded ${
-                isLastItem
-                  ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                  : ""
-              }`}
-            >
-              {React.createElement(icon, {
-                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                strokeWidth: 2,
-              })}
-              <Typography
-                as="span"
-                variant="small"
-                className="font-normal"
-                color={isLastItem ? "red" : "inherit"}
+        {isAuth.isAuth ? (
+          // If authenticated, show profile menu items
+          profileMenuItems.map(({ label, icon, route }, key) => {
+            const isLastItem = key === profileMenuItems.length - 1;
+            return (
+              <MenuItem
+                key={label}
+                onClick={closeMenu}
+                className={`flex items-center gap-2 rounded ${
+                  isLastItem
+                    ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
+                    : ""
+                }`}
               >
-                {label}
-              </Typography>
-            </MenuItem>
-          );
-        })
-      ) : (
-        // If not authenticated, show login option
-        <MenuItem onClick={closeMenu} className="flex items-center gap-2 rounded">
-          <Typography as="span" variant="small" className="font-normal text-blue-500">
-            <Link href="/register">
-            Register Now
-            </Link>
-          </Typography>
-        </MenuItem>
-      )}
+                {React.createElement(icon, {
+                  className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
+                  strokeWidth: 2,
+                })}
+                <Link href={route}>
+                  <Typography
+                    as="span"
+                    variant="small"
+                    className="font-normal"
+                    color={isLastItem ? "red" : "inherit"}
+                  >
+                    {label}
+                  </Typography>
+                </Link>
+              </MenuItem>
+            );
+          })
+        ) : (
+          // If not authenticated, show login option
+          <MenuItem
+            onClick={closeMenu}
+            className="flex items-center gap-2 rounded"
+          >
+            <Typography
+              as="span"
+              variant="small"
+              className="font-normal text-blue-500"
+            >
+              <Link href="/register">Register Now</Link>
+            </Typography>
+          </MenuItem>
+        )}
       </MenuList>
     </Menu>
   );
@@ -304,7 +311,7 @@ export function ComplexNavbar() {
     };
 
     checkAuthentication();
-  }, []); 
+  }, []);
   return (
     <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
@@ -328,12 +335,14 @@ export function ComplexNavbar() {
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
 
-        <Button size="sm" variant="text">
-          <Link href="/signin">
-            {" "}
-            <span>Log In</span>
-          </Link>
-        </Button>
+        {isAuth == false && (
+          <Button size="sm" variant="text">
+            <Link href="/signin">
+              {" "}
+              <span>Log In</span>
+            </Link>
+          </Button>
+        )}
 
         {/* <Button size="sm" variant="text">
           <div className="relative">
@@ -343,7 +352,7 @@ export function ComplexNavbar() {
             </span>
           </div>
         </Button> */}
-        <ProfileMenu isAuth={isAuth}/>
+        <ProfileMenu isAuth={isAuth} />
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />
