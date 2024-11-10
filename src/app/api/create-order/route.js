@@ -169,7 +169,7 @@ export async function createOrderData(req) {
       totalAmount,
     } = req.body;
 
-    // Check if required fields are provided
+    // Validate the required fields
     if (!firstName || !lastName || !email || !streetAddress || !city || !state || !postalCode || !country || !paymentMethod) {
       return NextResponse.json({ success: false, message: "All fields are required" }, { status: 400 });
     }
@@ -177,6 +177,7 @@ export async function createOrderData(req) {
     try {
       await mongoDb(); // Ensure DB connection
 
+      // Create the order
       const order = new Order({
         firstName,
         lastName,
@@ -192,6 +193,7 @@ export async function createOrderData(req) {
         createdAt: new Date(),
       });
 
+      // Save to database
       await order.save(); 
 
       return NextResponse.json({

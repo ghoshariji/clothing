@@ -17,17 +17,16 @@ export default function Checkout() {
         setIsProcessing(true);
         const response = await fetch("/api/create-order", { method: "POST" });
         const data = await response.json();
-
+  
         const options = {
           key: "rzp_test_gcxdUk8HiQNA7I", 
           amount: data.amount * 100, 
           currency: "INR",
           name: "Clothing",
           description: "Test Transaction",
-          order_id: data.orderId, 
+          order_id: data.razorpayOrderId, 
           handler: function (response) {
             console.log("Payment Successful", response);
-           
           },
           prefill: {
             name: "",
@@ -38,7 +37,7 @@ export default function Checkout() {
             color: "#3399cc",
           },
         };
-
+  
         const rzp1 = new window.Razorpay(options);
         rzp1.open();
       } catch (error) {
@@ -47,7 +46,7 @@ export default function Checkout() {
         setIsProcessing(false);
       }
     } else {
-      console.log("Cash on Delivery selected");
+      // Handle Cash on Delivery
       try {
         const orderData = {
           firstName: event.target["first-name"].value,
@@ -59,21 +58,21 @@ export default function Checkout() {
           postalCode: event.target["postal-code"].value,
           country: event.target["country"].value,
           paymentMethod: "cashOnDelivery", 
+          cartItems: cartItems,  // Add cartItems
+          totalAmount: totalAmount, // Add totalAmount
         };
-
+  
         const response = await fetch("/api/create-order", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ amount: totalAmount, currency: "INR" }),
+          body: JSON.stringify(orderData),
         });
-        
-
+  
         const data = await response.json();
         if (data.success) {
-         
-          router.push('/orderconfirm'); 
+          router.push("/orderconfirm");  // Navigate to the order confirmation page
         } else {
           console.log("Error creating order");
         }
@@ -82,7 +81,7 @@ export default function Checkout() {
       }
     }
   };
-
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
   };
