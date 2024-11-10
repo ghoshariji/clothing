@@ -40,7 +40,7 @@
 
 "use client";
 
-import React from "react";
+import React,{useState,useEffect} from "react";
 import Hero from "@/component/Hero";
 import { ComplexNavbar } from "./_navbar/Navbar";
 import PageFooter from "./_footer/Page";

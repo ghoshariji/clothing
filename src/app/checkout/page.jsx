@@ -1,60 +1,104 @@
 "use client";
 import { useState } from "react";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-// import Footer from './_footer/Page';
 import { ComplexNavbar } from "../_navbar/Navbar";
-// import Razorpay from "razorpay";
+import Script from "next/script";
 
 export default function Checkout() {
   const [paymentMethod, setPaymentMethod] = useState("cashOnDelivery");
-  const [file, setFile] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePaymentMethodChange = (method) => {
     setPaymentMethod(method);
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  const handlePayment = async () => {
+    if (paymentMethod === "onlinePayment") {
+      try {
+        setIsProcessing(true);
+        const response = await fetch("/api/create-order", { method: "POST" });
+        const data = await response.json();
+
+        const options = {
+          key: "rzp_test_gcxdUk8HiQNA7I", 
+          amount: data.amount * 100, 
+          currency: "INR",
+          name: "Clothing",
+          description: "Test Transaction",
+          order_id: data.orderId, 
+          handler: function (response) {
+            console.log("Payment Successful", response);
+           
+          },
+          prefill: {
+            name: "",
+            email: "",
+            contact: "",
+          },
+          theme: {
+            color: "#3399cc",
+          },
+        };
+
+        const rzp1 = new window.Razorpay(options);
+        rzp1.open();
+      } catch (error) {
+        console.error("Payment failed", error);
+      } finally {
+        setIsProcessing(false);
+      }
+    } else {
+      console.log("Cash on Delivery selected");
+      try {
+        const orderData = {
+          firstName: event.target["first-name"].value,
+          lastName: event.target["last-name"].value,
+          email: event.target["email"].value,
+          streetAddress: event.target["street-address"].value,
+          city: event.target["city"].value,
+          state: event.target["state"].value,
+          postalCode: event.target["postal-code"].value,
+          country: event.target["country"].value,
+          paymentMethod: "cashOnDelivery", 
+        };
+
+        const response = await fetch("/api/create-order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ amount: totalAmount, currency: "INR" }),
+        });
+        
+
+        const data = await response.json();
+        if (data.success) {
+         
+          router.push('/orderconfirm'); 
+        } else {
+          console.log("Error creating order");
+        }
+      } catch (error) {
+        console.error("Error during order submission:", error);
+      }
+    }
   };
 
-  //   const handleSubmit = async (event) => {
-  //     event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  };
 
-  //     if (paymentMethod === "onlinePayment") {
-  //       // Razorpay integration
-  //       const options = {
-  //         key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay key ID
-  //         amount: 50000, // Amount in paise (50000 = 500 INR)
-  //         currency: "INR",
-  //         name: "Your Company Name",
-  //         description: "Order Payment",
-  //         handler: function (response) {
-  //           alert("Payment successful: " + response.razorpay_payment_id);
-  //         },
-  //         prefill: {
-  //           name: "Customer Name",
-  //           email: "customer@example.com",
-  //           contact: "9876543210",
-  //         },
-  //       };
-  //       const rzp = new Razorpay(options);
-  //       rzp.open();
-  //     } else {
-  //       alert("Order confirmed with Cash on Delivery");
-  //     }
-  //   };
-
-  const handleSubmit = () => {};
+  
   return (
     <>
-      <ComplexNavbar />
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg"
-      >
-        <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Complete Your Order
-        </h2>
+    <ComplexNavbar />
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg"
+    >
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" />
+      <h2 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+        Complete Your Order
+      </h2>
 
         {/* Personal Information */}
         <div className="space-y-6 border-b border-gray-300 pb-6">
@@ -95,7 +139,28 @@ export default function Checkout() {
                 className="mt-2 block w-full rounded-lg border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600"
               />
             </div>
+      
           </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-1 gap-6 mt-6">
+          <div>
+          <label
+            htmlFor="street-address"
+            className="block text-sm font-medium text-gray-700"
+          >
+           Email 
+          </label>
+          <input
+            id="street-address"
+            name="email"
+            type="text"
+            required
+            className="mt-2 block w-full rounded-lg border border-gray-300 p-2 shadow-sm focus:ring-2 focus:ring-indigo-600"
+          />
+        </div>
+          </div>
+
+
 
           {/* Address Section */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
@@ -204,10 +269,8 @@ export default function Checkout() {
         </div>
 
         {/* Payment Method */}
-        <div className="space-y-6 border-b border-gray-300 py-6">
-          <h3 className="text-xl font-semibold text-gray-700">
-            Payment Method
-          </h3>
+       <div className="space-y-6 border-b border-gray-300 py-6">
+          <h3 className="text-xl font-semibold text-gray-700">Payment Method</h3>
           <div className="flex items-center space-x-6">
             <label className="flex items-center">
               <input
@@ -247,8 +310,10 @@ export default function Checkout() {
             Cancel
           </button>
           <button
-            type="submit"
+            type="button"
             className="px-6 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow hover:bg-indigo-500 focus:ring-2 focus:ring-indigo-600"
+            onClick={handlePayment}
+            disabled={isProcessing}
           >
             {paymentMethod === "cashOnDelivery"
               ? "Confirm Order"
@@ -256,7 +321,6 @@ export default function Checkout() {
           </button>
         </div>
       </form>
-      {/* <Footer /> */}
     </>
   );
 }

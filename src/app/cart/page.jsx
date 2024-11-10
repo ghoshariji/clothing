@@ -52,11 +52,13 @@ const Cart = () => {
     0
   );
 
+
+
   const originalPrice = 1000;
 
   const totalOrderPrice = 1000;
-  const savings = 50; // For example purposes
-  const storePickupFee = 20; // For example purposes
+  const savings = 50; 
+  const storePickupFee = 20; 
   const tax = totalPrice * 0.1;
 
   const getAuthToken = () => {
@@ -97,22 +99,13 @@ const Cart = () => {
     return data.isValid;
   };
   
-  const handleBuy = async () => {
-    try {
-      console.log("Come");
-      const isAuthenticated = await checkUserAuthenticated(); // Call the function with await
-      if (!isAuthenticated) {
-        // Redirect to login if not authenticated
-        navigation.push("/register");
-        return;
-      }
-
-      console.log("Come")
-      navigation.push("/checkout")
-      // Proceed with the buy action if authenticated
-    } catch (error) {
-      console.log("Error " + error);
+   const handleBuy = async () => {
+    const isAuthenticated = await checkUserAuthenticated();
+    if (!isAuthenticated) {
+      navigation.push("/register");
+      return;
     }
+    navigation.push("/checkout");
   };
   
 
